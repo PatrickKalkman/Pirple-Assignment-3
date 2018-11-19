@@ -1,0 +1,668 @@
+{
+	"info": {
+		"_postman_id": "b0d16fe1-fdee-cdb4-13fd-ac47b00376e7",
+		"name": "Pirple #2 Homework Test script",
+		"description": "Test script to test all the functions that should be implemented in the Pirple #2 Homework assignment. An API for a pizza delivery company.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new user John Doe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\" : \"John\",\n\t\"lastName\"  : \"Doe\",\n\t\"email\"     : \"pkalkie@gmail.com\",\n\t\"password\"  : \"secretpassword\",\n\t\"tosAgreement\" : true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    var jsonData = pm.response.json();",
+							"    pm.globals.set(\"tokenId\", jsonData.token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"     : \"pkalkie@gmail.com\",\n\t\"password\"  : \"secretpassword\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/tokens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extend the token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"extend\"     : true,\n\t\"token\"     : \"{{tokenId}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/tokens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve newly created user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffc3c047-a390-45d9-b7b3-194f260ee5c5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body contains john@doe.nl\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"pkalkie@gmail.com\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/users?email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update the first name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5af7a9fd-fbc0-428e-8c3b-0d403358ba08",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"pkalkie@gmail.com\", \n\t\"firstName\" : \"Jonathan\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate if the update succeeded",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffc3c047-a390-45d9-b7b3-194f260ee5c5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body contains Jonathan\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Jonathan\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/users?email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get the available menu items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffc3c047-a390-45d9-b7b3-194f260ee5c5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{tokenId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/menu?email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"menu"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new shopping cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    var jsonData = pm.response.json();",
+							"    pm.globals.set(\"shoppingCartId\", jsonData.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"     : \"pkalkie@gmail.com\",\n\t\"items\"     : [\n\t\t{\t\n\t\t\t\"code\": \"10SCDELUX\", \n\t\t\t\"amount\": 1\n\t\t}\n\t]\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/shoppingcarts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"shoppingcarts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a shopping cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    var jsonData = pm.response.json();",
+							"    pm.globals.set(\"shoppingCartId\", jsonData.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : \"{{shoppingCartId}}\",\n\t\"email\"     : \"pkalkie@gmail.com\",\n\t\"items\"     : [\n\t\t{\t\n\t\t\t\"code\": \"10SCDELUX\", \n\t\t\t\"amount\": 3\n\t\t}\n\t]\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/shoppingcarts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"shoppingcarts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a shopping cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/shoppingcarts?id={{shoppingCartId}}&email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"shoppingcarts"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{shoppingCartId}}"
+						},
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an order to checkout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{tokenId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"     : \"pkalkie@gmail.com\",\n\t\"shoppingCartId\" : \"{{shoppingCartId}}\",\n\t\"token\" : \"tok_visa\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a shopping cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04b57a99-6e5d-4b16-a95f-66a0c5745b7f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{tokenId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/shoppingcarts?id={{shoppingCartId}}&email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"shoppingcarts"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{shoppingCartId}}"
+						},
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete new user john Doe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ca4c163-8841-4d78-9f80-6015eb1f0b3a",
+						"exec": [
+							"pm.test(\"Status code is 200 or 404\", function () {",
+							"    // User could exist or not, just want to delete the user to start clean",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 404])",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{tokenId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/users?email=pkalkie@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "pkalkie@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete the new token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ca4c163-8841-4d78-9f80-6015eb1f0b3a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    // Token should be deleted",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7992d72b-103d-4a32-b528-4af49fb8b7bf",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/tokens?token={{tokenId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tokens"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{tokenId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
